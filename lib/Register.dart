@@ -114,6 +114,26 @@ class Register extends StatelessWidget {
                             child: TextField(
                               decoration: InputDecoration(
                                 border: InputBorder.none,
+                                hintText: "Name",
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
                                 hintText: "Email",
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
