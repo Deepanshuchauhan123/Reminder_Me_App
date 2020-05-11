@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:to_do_app/CreateTask.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,11 +55,18 @@ class _HomePageState extends State<HomePage> {
                           height: 62,
                           child: Icon(
                             Icons.add,
-                            size: 40,
+                            size: 36,
                             color: Colors.white,
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreateTask(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
