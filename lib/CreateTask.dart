@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+
 
 class CreateTask extends StatefulWidget {
   @override
@@ -23,7 +22,7 @@ class _CreateTaskState extends State<CreateTask> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                'assets/images/addtask.gif',
+                'assets/images/task.jpg',
                 height: 200,
                 width: double.maxFinite,
               ),
