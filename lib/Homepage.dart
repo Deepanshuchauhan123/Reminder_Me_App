@@ -53,6 +53,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+// String textprovider(){
+//   if(nameyour[nameyour.length - 1]==null){
+//     return nameyour[0];
+//   }else{
+//    return nameyour[nameyour.length - 1];
+//   }
+// }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,12 +110,12 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
                           child: CircleAvatar(
                             backgroundImage: AssetImage(
                               'assets/images/person.png',
                             ),
-                            radius: 55,
+                            radius: 50,
                           ),
                         ),
                       ),
@@ -122,12 +129,12 @@ class _HomePageState extends State<HomePage> {
                                   name = onValue;
                                   setState(
                                     () {
-                                      if (name != "") {
+                                      if (name != null && name!="") {
                                         nameyour.add(name);
                                         print(nameyour);
                                         nameyour.removeAt(nameyour.length - 2);
                                       } else {
-                                        nameyour.add("Your Name");
+                                       // nameyour.add("Your Name");
                                       }
                                     },
                                   );
@@ -137,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                             child: Text(
                               nameyour[nameyour.length - 1],
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 25,
                                 fontFamily: 'OldStandardTT',
                               ),
                             ),

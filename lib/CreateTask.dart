@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CreateTask extends StatefulWidget {
   @override
   _CreateTaskState createState() => _CreateTaskState();
@@ -10,6 +9,16 @@ class _CreateTaskState extends State<CreateTask> {
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   DateTime _dateTime;
+  TextEditingController titlecontroller = new TextEditingController();
+
+  TextEditingController descController = new TextEditingController();
+
+  @override
+  void dispose() {
+    
+    titlecontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +68,8 @@ class _CreateTaskState extends State<CreateTask> {
                                 ),
                               ),
                               child: TextField(
+                                controller: titlecontroller,
+                                
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Title",
@@ -68,6 +79,7 @@ class _CreateTaskState extends State<CreateTask> {
                                   ),
                                 ),
                               ),
+                              
                             ),
                           ),
                         ),
@@ -120,6 +132,7 @@ class _CreateTaskState extends State<CreateTask> {
                                   ),
                                 ),
                                 child: Text(
+                                  
                                   _dateTime == null
                                       ? "Pick a Date"
                                       : _dateTime.toString().substring(0, 10),
@@ -217,6 +230,7 @@ class _CreateTaskState extends State<CreateTask> {
                                 ),
                               ),
                               child: TextField(
+                                controller: descController,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Description",
@@ -233,7 +247,13 @@ class _CreateTaskState extends State<CreateTask> {
                           height: 40,
                         ),
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print(titlecontroller.text);
+                            print(_dateTime.toString());
+                            print(picked);
+                            print(descController.text);
+                            
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Container(
