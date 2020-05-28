@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_app/Homepage.dart';
+import 'Task.dart';
 
 class CreateTask extends StatefulWidget {
+  get taskshow => null;
+
   @override
   _CreateTaskState createState() => _CreateTaskState();
 }
 
+
+HomePage p1=HomePage();
+
+
+
 class _CreateTaskState extends State<CreateTask> {
+   
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   DateTime _dateTime;
@@ -15,11 +25,10 @@ class _CreateTaskState extends State<CreateTask> {
 
   @override
   void dispose() {
-    
     titlecontroller.dispose();
     super.dispose();
   }
-
+  Task t1=new Task();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +78,6 @@ class _CreateTaskState extends State<CreateTask> {
                               ),
                               child: TextField(
                                 controller: titlecontroller,
-                                
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Title",
@@ -79,7 +87,6 @@ class _CreateTaskState extends State<CreateTask> {
                                   ),
                                 ),
                               ),
-                              
                             ),
                           ),
                         ),
@@ -132,7 +139,6 @@ class _CreateTaskState extends State<CreateTask> {
                                   ),
                                 ),
                                 child: Text(
-                                  
                                   _dateTime == null
                                       ? "Pick a Date"
                                       : _dateTime.toString().substring(0, 10),
@@ -248,11 +254,33 @@ class _CreateTaskState extends State<CreateTask> {
                         ),
                         FlatButton(
                           onPressed: () {
-                            print(titlecontroller.text);
-                            print(_dateTime.toString());
-                            print(picked);
-                            print(descController.text);
                             
+                            List<Task> tasklist=[];
+                            tasklist.add(Task(
+                              t: titlecontroller.text,
+                              d: _dateTime.toString(),
+                              tm: picked.toString(),
+                              de: descController.text,
+                            ));
+                            
+                              //  taskshow.add(
+                              //    Card(
+                              //      elevation: 5,
+                              //      child: Column(
+                              //        children: <Widget>[
+                              //          ListTile(
+                              //            leading: Icon(Icons.alarm, size:50),
+                              //            title:Text(
+                              //              titlecontroller.text==null ?"Task adder":titlecontroller.text,
+                              //            ),
+                              //            subtitle: Text(
+                              //              _dateTime.toString()==null?"Date of Task":_dateTime.toString(),
+                              //            ),
+                              //          )
+                              //        ],
+                              //      ),
+                              //    )
+                              //  ) ;                        
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),

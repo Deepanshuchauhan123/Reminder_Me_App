@@ -6,22 +6,14 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
+List<Card> taskshow=[];
 String name = "Your Name";
 List<String> nameyour = [
   "Your Name",
 ];
-
+CreateTask t1=new CreateTask();
 class _HomePageState extends State<HomePage> {
-  // yourname() {
-  //   Text(
-  //     name,
-  //     style: TextStyle(
-  //       fontSize: 24,
-  //       fontFamily: 'OldStandardTT',
-  //     ),
-  //   );
-  // }
+ 
 
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
@@ -34,7 +26,7 @@ class _HomePageState extends State<HomePage> {
           content: TextFormField(
             controller: customcontroller,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(10),
+              LengthLimitingTextInputFormatter(15),
             ],
           ),
           actions: <Widget>[
@@ -53,37 +45,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-// String textprovider(){
-//   if(nameyour[nameyour.length - 1]==null){
-//     return nameyour[0];
-//   }else{
-//    return nameyour[nameyour.length - 1];
-//   }
-// }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.add_comment),
-        //     onPressed: () {
-        //       createAlertDialog(context).then(
-        //         (onValue) {
-        //           name = onValue;
-        //           print('$name');
-        //         },
-        //       );
-        //       setState(
-        //         () {
-        //           //  nameyour.add("Your Name");
-        //           //nameyour.add(name);
-        //         },
-        //       );
-        //     },
-        //   ),
-        // ],
+    
       ),
       body: Container(
         child: Column(
@@ -108,44 +76,50 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage(
-                              'assets/images/person.png',
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                                'assets/images/person.png',
+                              ),
+                              radius: 50,
                             ),
-                            radius: 50,
                           ),
                         ),
                       ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 0),
-                          child: FlatButton(
-                            onPressed: () {
-                              createAlertDialog(context).then(
-                                (onValue) {
-                                  name = onValue;
-                                  setState(
-                                    () {
-                                      if (name != null && name!="") {
-                                        nameyour.add(name);
-                                        print(nameyour);
-                                        nameyour.removeAt(nameyour.length - 2);
-                                      } else {
-                                       // nameyour.add("Your Name");
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            child: Text(
-                              nameyour[nameyour.length - 1],
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontFamily: 'OldStandardTT',
+                      Expanded(
+                        flex: 2,
+                                              child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 0),
+                            child: FlatButton(
+                              onPressed: () {
+                                createAlertDialog(context).then(
+                                  (onValue) {
+                                    name = onValue;
+                                    setState(
+                                      () {
+                                        if (name != null && name != "") {
+                                          nameyour.add(name);
+                                          print(nameyour);
+                                          nameyour.removeAt(nameyour.length - 2);
+                                        } else {
+                                          // nameyour.add("Your Name");
+                                        }
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text(
+                                nameyour[nameyour.length - 1],
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontFamily: 'OldStandardTT',
+                                ),
                               ),
                             ),
                           ),
@@ -204,7 +178,17 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                 child: Container(
                   height: 400,
-                  color: Colors.white,
+                  color: Colors.yellow,
+                  child:Column(
+                    children: <Widget>[
+
+                      
+                      
+                        taskshow==null?"Add Task":t1.taskshow,
+                      
+                    ],
+                  )
+                   
                 ),
               ),
             ),
