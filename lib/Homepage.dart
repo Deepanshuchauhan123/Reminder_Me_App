@@ -4,16 +4,49 @@ import 'package:to_do_app/CreateTask.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
+
+  // void addtotask(String title, String time, String date) {
+  //   HomePageState.taskadder(title, time, date);
+
+  // }
 }
-List<Card> taskshow=[];
+
+List<Card> taskshow = [
+  // Card(
+  //     elevation: 5.0,
+  //     child: Column(
+  //       children: <Widget>[
+  //         ListTile(
+  //           leading: Icon(Icons.alarm),
+  //           title: Text("title"),
+  //           subtitle: Text("time"),
+  //         ),
+  //       ],
+  //     )),
+];
 String name = "Your Name";
 List<String> nameyour = [
   "Your Name",
 ];
-CreateTask t1=new CreateTask();
-class _HomePageState extends State<HomePage> {
- 
+
+class HomePageState extends State<HomePage> {
+  // void taskadder(String title, String time, String date) {
+  //   taskshow.add(
+  //     Card(
+  //       elevation: 5.0,
+  //       child: Column(
+  //         children: <Widget>[
+  //           ListTile(
+  //             leading: Icon(Icons.alarm),
+  //             title: Text(title),
+  //             subtitle: Text(time),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
@@ -45,13 +78,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 148, 251, 1),
-    
       ),
       body: Container(
         child: Column(
@@ -92,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         flex: 2,
-                                              child: Center(
+                        child: Center(
                           child: Padding(
                             padding: const EdgeInsets.only(right: 0),
                             child: FlatButton(
@@ -105,7 +136,8 @@ class _HomePageState extends State<HomePage> {
                                         if (name != null && name != "") {
                                           nameyour.add(name);
                                           print(nameyour);
-                                          nameyour.removeAt(nameyour.length - 2);
+                                          nameyour
+                                              .removeAt(nameyour.length - 2);
                                         } else {
                                           // nameyour.add("Your Name");
                                         }
@@ -175,20 +207,20 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Expanded(
+              
               child: SingleChildScrollView(
                 child: Container(
-                  height: 400,
-                  color: Colors.yellow,
-                  child:Column(
+                  color: Colors.lightBlueAccent,
+                  
+                  child: Column(
                     children: <Widget>[
-
-                      
-                      
-                        taskshow==null?"Add Task":t1.taskshow,
-                      
+                     Image.asset(taskshow.length==0 ?"assets/images/empty_List.jpg":""),
+                      Column(
+                        children: taskshow,
+                      )
                     ],
-                  )
-                   
+                    
+                  ),
                 ),
               ),
             ),

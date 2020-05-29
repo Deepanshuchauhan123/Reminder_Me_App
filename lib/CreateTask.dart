@@ -6,16 +6,13 @@ class CreateTask extends StatefulWidget {
   get taskshow => null;
 
   @override
-  _CreateTaskState createState() => _CreateTaskState();
+  CreateTaskState createState() => CreateTaskState();
 }
 
+HomePage homePage = HomePage();
 
-HomePage p1=HomePage();
-
-
-
-class _CreateTaskState extends State<CreateTask> {
-   
+class CreateTaskState extends State<CreateTask> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   DateTime _dateTime;
@@ -28,10 +25,12 @@ class _CreateTaskState extends State<CreateTask> {
     titlecontroller.dispose();
     super.dispose();
   }
-  Task t1=new Task();
+
+  Task t1 = new Task();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: Container(
           padding: EdgeInsets.all(0.01),
@@ -254,33 +253,74 @@ class _CreateTaskState extends State<CreateTask> {
                         ),
                         FlatButton(
                           onPressed: () {
-                            
-                            List<Task> tasklist=[];
-                            tasklist.add(Task(
-                              t: titlecontroller.text,
-                              d: _dateTime.toString(),
-                              tm: picked.toString(),
-                              de: descController.text,
-                            ));
-                            
-                              //  taskshow.add(
-                              //    Card(
-                              //      elevation: 5,
-                              //      child: Column(
-                              //        children: <Widget>[
-                              //          ListTile(
-                              //            leading: Icon(Icons.alarm, size:50),
-                              //            title:Text(
-                              //              titlecontroller.text==null ?"Task adder":titlecontroller.text,
-                              //            ),
-                              //            subtitle: Text(
-                              //              _dateTime.toString()==null?"Date of Task":_dateTime.toString(),
-                              //            ),
-                              //          )
-                              //        ],
-                              //      ),
-                              //    )
-                              //  ) ;                        
+                           
+                            print("Tapped bro");
+
+                            setState(
+                              () {
+                                if ((titlecontroller.text) == "") {
+                                  _scaffoldKey.currentState.showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Please enter Title",
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  if (_dateTime==null) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Please enter Date",
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    if (picked ==
+                                        null) {
+                                      _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "Please enter Time",
+                                          ),
+                                        ),
+                                      );
+                                    } else if(descController.text==""){
+                                      _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "Please enter Description Of the Task",
+                                          ),
+                                        ),
+                                      );
+                                    } else{
+                                      taskshow.add(
+                                        Card(
+                                          elevation: 5.0,
+                                          child: Column(
+                                            children: <Widget>[
+                                              ListTile(
+                                                leading: Icon(Icons.alarm),
+                                                title: Text(titlecontroller.text,),
+                                                subtitle: Text(picked.format(context).toString()),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomePage(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }
+                              },
+                            );
+
+                            //print(taskshow);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
