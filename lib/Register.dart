@@ -1,8 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/main.dart';
 
 class Register extends StatelessWidget {
-  String _name,_email,_password,_confirmpassword;
+  String _name, _email, _password, _confirmpassword;
+  final _formkey = new GlobalKey<FormState>();
+
+  bool validateAndSave() {
+    final form = _formkey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        AuthResult user = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +126,7 @@ class Register extends StatelessWidget {
                         ],
                       ),
                       child: new Form(
+                        key: _formkey,
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -121,12 +145,13 @@ class Register extends StatelessWidget {
                                   hintText: "Name",
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                validator: (value)=> value.isEmpty? 'Name can\'t be empty'
+                                validator: (value) => value.isEmpty
+                                    ? 'Name can\'t be empty'
                                     : null,
-                                onSaved: (value)=>_name= value.trim(),
+                                onSaved: (value) => _name = value.trim(),
                               ),
                             ),
                             Container(
@@ -145,12 +170,13 @@ class Register extends StatelessWidget {
                                   hintText: "Email",
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                validator: (value)=> value.isEmpty? 'Email can\'t be empty'
+                                validator: (value) => value.isEmpty
+                                    ? 'Email can\'t be empty'
                                     : null,
-                                onSaved: (value)=>_email= value.trim(),
+                                onSaved: (value) => _email = value.trim(),
                               ),
                             ),
                             Container(
@@ -169,12 +195,13 @@ class Register extends StatelessWidget {
                                   hintText: "Password",
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                validator: (value)=> value.isEmpty? 'Password can\'t be empty'
+                                validator: (value) => value.isEmpty
+                                    ? 'Password can\'t be empty'
                                     : null,
-                                onSaved: (value)=>_name= value.trim(),
+                                onSaved: (value) => _password = value.trim(),
                               ),
                             ),
                             Container(
@@ -193,12 +220,13 @@ class Register extends StatelessWidget {
                                   hintText: "Confirm Password",
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
-                                validator: (value)=> value.isEmpty? 'Confirm Password can\'t be empty'
+                                validator: (value) => value.isEmpty
+                                    ? 'Confirm Password can\'t be empty'
                                     : null,
-                                onSaved: (value)=>_name= value.trim(),
+                                onSaved: (value) => _confirmpassword = value.trim(),
                               ),
                             ),
                           ],
@@ -208,24 +236,27 @@ class Register extends StatelessWidget {
                     SizedBox(
                       height: 40,
                     ),
-                    Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10,
+                    FlatButton(
+                      onPressed: validateAndSubmit,
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                          gradient: LinearGradient(colors: [
+                            Color.fromRGBO(143, 148, 251, 1),
+                            Color.fromRGBO(143, 148, 251, .6),
+                          ]),
                         ),
-                        gradient: LinearGradient(colors: [
-                          Color.fromRGBO(143, 148, 251, 1),
-                          Color.fromRGBO(143, 148, 251, .6),
-                        ]),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Register",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                        child: Center(
+                          child: Text(
+                            "Register",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),

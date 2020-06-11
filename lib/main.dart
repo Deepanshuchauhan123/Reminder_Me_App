@@ -161,7 +161,7 @@ class LoginPage extends StatelessWidget {
                                   hintText: "Email",
                                   hintStyle: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 validator: (value) => value.isEmpty
