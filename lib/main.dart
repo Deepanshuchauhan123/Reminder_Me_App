@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/Homepage.dart';
 import 'Register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(
@@ -12,19 +13,32 @@ void main() {
 }
 
 class LoginPage extends StatelessWidget {
-
-  final formkey= new GlobalKey<FormState>();
+  final _formkey = new GlobalKey<FormState>();
   String _email;
   String _password;
+  String _errorMessage = "";
 
-  void validateAndSave(){
-    final form=formkey.currentState;
-    if(form.validate()){
-      print("Form is valid");
-    }else{
-      print("Not valid");
+  bool validateAndSave() {
+    final form = _formkey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else
+      return false;
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        AuthResult firebaseUser = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        print('auth $firebaseUser');
+      } catch (e) {
+        print('Error: $e');
+      }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,66 +137,73 @@ class LoginPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      key: formkey,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                      child: new Form(
+                        key: _formkey,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
+                              child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  icon: new Icon(
+                                    Icons.mail,
+                                  ),
+                                  border: InputBorder.none,
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                validator: (value) => value.isEmpty
+                                    ? 'Email can\'t be empty'
+                                    : null,
+                                onSaved: (value) => _email = value.trim(),
+                              ),
                             ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Email",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                              
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                              child: TextFormField(
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  icon: new Icon(Icons.lock),
+                                  border: InputBorder.none,
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey, fontSize: 18),
                                 ),
+                                validator: (value) => value.isEmpty
+                                    ? 'Password can\'t be empty'
+                                    : null,
+                                onSaved: (value) => _password = value.trim(),
+                                obscureText: true,
                               ),
                             ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                
-                                border: InputBorder.none,
-                                hintText: "Password",
-                                
-                                hintStyle:
-                                    TextStyle(color: Colors.grey, fontSize: 18),
-                              ),
-                              obscureText: true,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 40.0,
                     ),
                     FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
-                      },
+                      onPressed: validateAndSubmit,
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -216,22 +237,24 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                        child: Text(
-                          'Register Here',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontSize: 18,
-                          ),
+                      child: Text(
+                        'Register Here',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontSize: 18,
                         ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Register(),
-                            ),
-                          );
-                        }),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Register(),
+                          ),
+                        );
+                      },
+                    ),
+                    _showerrormessage(),
                   ],
                 ),
               ),
@@ -241,7 +264,22 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-  void signIn(){
-    
+
+  Widget _showerrormessage() {
+    if (_errorMessage.length > 0 && _errorMessage != null) {
+      return new Text(
+        _errorMessage,
+        style: TextStyle(
+          fontSize: 13.0,
+          color: Colors.red,
+          height: 1.0,
+          fontWeight: FontWeight.w300,
+        ),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }
   }
 }

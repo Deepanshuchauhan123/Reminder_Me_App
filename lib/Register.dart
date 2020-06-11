@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:to_do_app/main.dart';
 
 class Register extends StatelessWidget {
+  String _name,_email,_password,_confirmpassword;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,99 +102,119 @@ class Register extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                      child: new Form(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Name",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.person),
+                                  border: InputBorder.none,
+                                  hintText: "Name",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
+                                validator: (value)=> value.isEmpty? 'Name can\'t be empty'
+                                    : null,
+                                onSaved: (value)=>_name= value.trim(),
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Email",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.email),
+                                  border: InputBorder.none,
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
+                                validator: (value)=> value.isEmpty? 'Email can\'t be empty'
+                                    : null,
+                                onSaved: (value)=>_email= value.trim(),
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Password",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.lock_outline),
+                                  border: InputBorder.none,
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
+                                validator: (value)=> value.isEmpty? 'Password can\'t be empty'
+                                    : null,
+                                onSaved: (value)=>_name= value.trim(),
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
+                            Container(
+                              padding: EdgeInsets.fromLTRB(6, 1, 3, 1),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Confirm Password",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  icon: Icon(Icons.lock),
+                                  border: InputBorder.none,
+                                  hintText: "Confirm Password",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
+                                validator: (value)=> value.isEmpty? 'Confirm Password can\'t be empty'
+                                    : null,
+                                onSaved: (value)=>_name= value.trim(),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Container(
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
                           10,
                         ),
-                         gradient: LinearGradient(colors: [
+                        gradient: LinearGradient(colors: [
                           Color.fromRGBO(143, 148, 251, 1),
                           Color.fromRGBO(143, 148, 251, .6),
                         ]),
@@ -246,6 +268,5 @@ class Register extends StatelessWidget {
     );
   }
 }
-
 
 //implementation 'com.google.firebase:firebase-analytics:17.2.2'
