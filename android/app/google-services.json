@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "151816637859",
+    "firebase_url": "https://reminder-me-app.firebaseio.com",
+    "project_id": "reminder-me-app",
+    "storage_bucket": "reminder-me-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151816637859:android:0d44b78e4e88f88afc1e16",
+        "android_client_info": {
+          "package_name": "com.example.to_do_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151816637859-bdv56f1c3dbp9gv8csesle48n90obl97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1GDi8P673jMjaxdkpw2_RxG5ek6SMa4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151816637859-bdv56f1c3dbp9gv8csesle48n90obl97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -12,6 +12,19 @@ void main() {
 }
 
 class LoginPage extends StatelessWidget {
+
+  final formkey= new GlobalKey<FormState>();
+  String _email;
+  String _password;
+
+  void validateAndSave(){
+    final form=formkey.currentState;
+    if(form.validate()){
+      print("Form is valid");
+    }else{
+      print("Not valid");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +123,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                      key: formkey,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -130,6 +144,7 @@ class LoginPage extends StatelessWidget {
                                   fontSize: 20,
                                 ),
                               ),
+                              
                             ),
                           ),
                           Container(
@@ -143,11 +158,14 @@ class LoginPage extends StatelessWidget {
                             ),
                             child: TextField(
                               decoration: InputDecoration(
+                                
                                 border: InputBorder.none,
                                 hintText: "Password",
+                                
                                 hintStyle:
                                     TextStyle(color: Colors.grey, fontSize: 18),
                               ),
+                              obscureText: true,
                             ),
                           ),
                         ],
@@ -222,5 +240,8 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+  void signIn(){
+    
   }
 }

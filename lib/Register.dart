@@ -246,3 +246,6 @@ class Register extends StatelessWidget {
     );
   }
 }
+
+
+//implementation 'com.google.firebase:firebase-analytics:17.2.2'
