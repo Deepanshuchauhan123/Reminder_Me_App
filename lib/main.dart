@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/Homepage.dart';
 import 'Register.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'auth.dart';
+import 'Root_Page.dart';
 
 void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: RootPage(auth: new Auth(),)
     ),
   );
 }
 
 class LoginPage extends StatelessWidget {
+  LoginPage({this.auth,this.onSignedIn});
+  final Baseauth auth ;
+  final VoidCallback onSignedIn;
+
   final _formkey = new GlobalKey<FormState>();
   String _email;
   String _password;
@@ -30,9 +35,9 @@ class LoginPage extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        AuthResult firebaseUser = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password);
-        print('auth $firebaseUser');
+        String userid= await auth.signInWithEmailandpassword(_email, _password);
+        onSignedIn();
+        print('auth $userid');
       } catch (e) {
         print('Error: $e');
       }
@@ -249,7 +254,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Register(),
+                            builder: (context) => Register(auth: new Auth(),),
                           ),
                         );
                       },

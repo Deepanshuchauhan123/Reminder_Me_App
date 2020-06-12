@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_app/auth.dart';
 import 'package:to_do_app/main.dart';
 
 class Register extends StatelessWidget {
   String _name, _email, _password, _confirmpassword;
   final _formkey = new GlobalKey<FormState>();
 
+  Register({this.auth});
+  final Baseauth auth ;
   bool validateAndSave() {
     final form = _formkey.currentState;
     if (form.validate()) {
@@ -19,8 +22,8 @@ class Register extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        AuthResult user = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: _email, password: _password);
+        String userid= await auth.createUserwithemailandpassword(_email, _password);
+        print("Userid: $userid");
       } catch (e) {
         print(e);
       }
