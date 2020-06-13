@@ -1,53 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_do_app/CreateTask.dart';
+import 'auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
   HomePageState createState() => HomePageState();
-
-  // void addtotask(String title, String time, String date) {
-  //   HomePageState.taskadder(title, time, date);
-
-  // }
+ HomePage({this.auth,this.onSignedOut});
+final Baseauth auth;
+final VoidCallback onSignedOut;
+ void signOuts() async{
+    try{
+        await auth.signOut();
+        onSignedOut();
+    }catch(e){
+      print(e);
+    }
+  }
 }
 
-List<Card> taskshow = [
-  // Card(
-  //     elevation: 5.0,
-  //     child: Column(
-  //       children: <Widget>[
-  //         ListTile(
-  //           leading: Icon(Icons.alarm),
-  //           title: Text("title"),
-  //           subtitle: Text("time"),
-  //         ),
-  //       ],
-  //     )),
-];
+List<Card> taskshow = [];
 String name = "Your Name";
 List<String> nameyour = [
-  "Your Name",
+  "Your Name", 
 ];
 
-class HomePageState extends State<HomePage> {
-  // void taskadder(String title, String time, String date) {
-  //   taskshow.add(
-  //     Card(
-  //       elevation: 5.0,
-  //       child: Column(
-  //         children: <Widget>[
-  //           ListTile(
-  //             leading: Icon(Icons.alarm),
-  //             title: Text(title),
-  //             subtitle: Text(time),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
+class HomePageState extends State<HomePage> {
+ 
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
 
@@ -77,12 +57,20 @@ class HomePageState extends State<HomePage> {
       },
     );
   }
+ 
 
+HomePage h1=new HomePage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 148, 251, 1),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text('Logout',style: TextStyle(color: Colors.black,fontSize: 20.0,fontFamily: 'OldStandardTT'),),
+            onPressed:widget.signOuts,
+          )
+        ],
       ),
       body: Container(
         child: Column(
