@@ -1,14 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/auth.dart';
 import 'package:to_do_app/main.dart';
 
 class Register extends StatelessWidget {
-  String _name, _email, _password, _confirmpassword;
+  
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String _name, _email, _password;
+  TextEditingController _pass = TextEditingController();
   final _formkey = new GlobalKey<FormState>();
 
   Register({this.auth});
-  final Baseauth auth ;
+  final Baseauth auth;
   bool validateAndSave() {
     final form = _formkey.currentState;
     if (form.validate()) {
@@ -22,8 +26,17 @@ class Register extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        String userid= await auth.createUserwithemailandpassword(_email, _password);
+        String userid =
+            await auth.createUserwithemailandpassword(_email, _password);
+        Firestore.instance.collection('Details').add({
+          "Name": _name,
+          "Email": _email,
+        }).then((result) => {
+          
+        });
+        
         print("Userid: $userid");
+        
       } catch (e) {
         print(e);
       }
@@ -33,6 +46,7 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
@@ -128,6 +142,7 @@ class Register extends StatelessWidget {
                           ),
                         ],
                       ),
+                      
                       child: new Form(
                         key: _formkey,
                         child: Column(
@@ -154,7 +169,7 @@ class Register extends StatelessWidget {
                                 validator: (value) => value.isEmpty
                                     ? 'Name can\'t be empty'
                                     : null,
-                                onSaved: (value) => _name = value.trim(),
+                                onSaved: (value) => _name = value,
                               ),
                             ),
                             Container(
@@ -201,9 +216,11 @@ class Register extends StatelessWidget {
                                     fontSize: 18,
                                   ),
                                 ),
+                                controller: _pass,
                                 validator: (value) => value.isEmpty
                                     ? 'Password can\'t be empty'
-                                    : null,
+                                    : null ,
+                                    
                                 onSaved: (value) => _password = value.trim(),
                               ),
                             ),
@@ -226,10 +243,18 @@ class Register extends StatelessWidget {
                                     fontSize: 18,
                                   ),
                                 ),
-                                validator: (value) => value.isEmpty
-                                    ? 'Confirm Password can\'t be empty'
-                                    : null,
-                                onSaved: (value) => _confirmpassword = value.trim(),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    value=null;
+                                    return 'Confirm Password can\'t be empty';
+                                  }
+                                  if(value != _pass.text){
+                                      return 'Confirm Password should match Password';
+                                  }
+                                
+                                  return null;
+                                },
+                              
                               ),
                             ),
                           ],
@@ -276,22 +301,23 @@ class Register extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                        child: Text(
-                          'Login Here',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontSize: 18,
-                          ),
+                      child: Text(
+                        'Login Here',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontSize: 18,
                         ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
-                        }),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -302,5 +328,4 @@ class Register extends StatelessWidget {
     );
   }
 }
-
 //implementation 'com.google.firebase:firebase-analytics:17.2.2'
