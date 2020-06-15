@@ -9,7 +9,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 class Register extends StatelessWidget {
   ProgressDialog progressDialog;
   BuildContext cont;
-  int flag = 0;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _name, _email, _password;
   TextEditingController _pass = TextEditingController();
@@ -30,7 +30,6 @@ class Register extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        flag = 1;
         String userid =
             await auth.createUserwithemailandpassword(_email, _password);
         Firestore.instance.collection('Details').add(
@@ -42,7 +41,7 @@ class Register extends StatelessWidget {
           (result) => {
             progressDialog.update(message: "Registered Sucessfully"),
             Future.delayed(
-              Duration(seconds: 1),
+              Duration(seconds: 2),
             ).then(
               (value) {
                 Navigator.pop(cont);
@@ -53,17 +52,27 @@ class Register extends StatelessWidget {
         );
 
         print("Userid: $userid");
-      } catch (e) {
-        print(e);
-        flag = 0;
-        progressDialog.update(message: e);
-        progressDialog.hide();
+      } catch (error) {
+        print("Error is $error");
+
+        progressDialog.update(message: error.message);
+        Future.delayed(
+          Duration(seconds: 2),
+        ).then(
+          (value) {
+            progressDialog.hide();
+          },
+        );
       }
     } else {
       progressDialog.update(message: "Invalid Details.");
-      Future.delayed(Duration(seconds: 1)).then((value) {
-        progressDialog.hide();
-      });
+      Future.delayed(
+        Duration(seconds: 1),
+      ).then(
+        (value) {
+          progressDialog.hide();
+        },
+      );
     }
   }
 
@@ -76,12 +85,6 @@ class Register extends StatelessWidget {
       progressDialog.style(message: "Checking User Details....");
       progressDialog.show();
       validateAndSubmit();
-      if (flag == 0) {
-        progressDialog.update(message: "Invalid Details Check Again !!!!");
-        Future.delayed(Duration(seconds: 1)).then((value) {
-          progressDialog.hide();
-        });
-      }
     }
 
     return Scaffold(
@@ -254,10 +257,18 @@ class Register extends StatelessWidget {
                                     fontSize: 18,
                                   ),
                                 ),
+                                obscureText: true,
                                 controller: _pass,
-                                validator: (value) => value.isEmpty
-                                    ? 'Password can\'t be empty'
-                                    : null,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Password can\'t be empty';
+                                  }
+                                  if (value.length <= 6) {
+                                    return 'Minimnum length of password should be 7';
+                                  }
+
+                                  return null;
+                                },
                                 onSaved: (value) => _password = value.trim(),
                               ),
                             ),
@@ -280,9 +291,9 @@ class Register extends StatelessWidget {
                                     fontSize: 18,
                                   ),
                                 ),
+                                obscureText: true,
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    value = null;
                                     return 'Confirm Password can\'t be empty';
                                   }
                                   if (value != _pass.text) {

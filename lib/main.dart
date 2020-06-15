@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/Homepage.dart';
 import 'Register.dart';
 import 'auth.dart';
 import 'Root_Page.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 void main() {
   runApp(
@@ -14,6 +14,7 @@ void main() {
 }
 
 class LoginPage extends StatelessWidget {
+  ProgressDialog progressDialog;
   LoginPage({this.auth,this.onSignedIn});
   final Baseauth auth ;
   final VoidCallback onSignedIn;
@@ -37,15 +38,47 @@ class LoginPage extends StatelessWidget {
       try {
         String userid= await auth.signInWithEmailandpassword(_email, _password);
         onSignedIn();
+         progressDialog.update(message: "Login Sucessful");
+            Future.delayed(
+              Duration(seconds: 1),
+            ).then(
+              (value) {
+                
+                progressDialog.hide();
+              },
+            );
         print('auth $userid');
-      } catch (e) {
-        print('Error: $e');
+      } catch (error) {
+        progressDialog.update(message: error.message);
+        Future.delayed(
+          Duration(seconds: 2),
+        ).then(
+          (value) {
+            progressDialog.hide();
+          },
+        );
       }
+    }else {
+      progressDialog.update(message: "Invalid Credentials !!");
+      Future.delayed(
+        Duration(seconds: 1),
+      ).then(
+        (value) {
+          progressDialog.hide();
+        },
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context,type: ProgressDialogType.Normal);
+
+     void funct() {
+      progressDialog.style(message: "Checking User Details....");
+      progressDialog.show();
+      validateAndSubmit();
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -208,7 +241,7 @@ class LoginPage extends StatelessWidget {
                       height: 40.0,
                     ),
                     FlatButton(
-                      onPressed: validateAndSubmit,
+                      onPressed: funct,
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
