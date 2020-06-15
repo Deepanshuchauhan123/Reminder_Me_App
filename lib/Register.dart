@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/auth.dart';
 import 'package:to_do_app/main.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Register extends StatelessWidget {
-  
+  ProgressDialog progressDialog;
+  BuildContext cont;
+  int flag = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _name, _email, _password;
   TextEditingController _pass = TextEditingController();
@@ -26,25 +30,60 @@ class Register extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
+        flag = 1;
         String userid =
             await auth.createUserwithemailandpassword(_email, _password);
-        Firestore.instance.collection('Details').add({
-          "Name": _name,
-          "Email": _email,
-        }).then((result) => {
-          
-        });
-        
+        Firestore.instance.collection('Details').add(
+          {
+            "Name": _name,
+            "Email": _email,
+          },
+        ).then(
+          (result) => {
+            progressDialog.update(message: "Registered Sucessfully"),
+            Future.delayed(
+              Duration(seconds: 1),
+            ).then(
+              (value) {
+                Navigator.pop(cont);
+                progressDialog.hide();
+              },
+            ),
+          },
+        );
+
         print("Userid: $userid");
-        
       } catch (e) {
         print(e);
+        flag = 0;
+        progressDialog.update(message: e);
+        progressDialog.hide();
       }
+    } else {
+      progressDialog.update(message: "Invalid Details.");
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        progressDialog.hide();
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+
+    cont = context;
+    void funct() {
+      progressDialog.style(message: "Checking User Details....");
+      progressDialog.show();
+      validateAndSubmit();
+      if (flag == 0) {
+        progressDialog.update(message: "Invalid Details Check Again !!!!");
+        Future.delayed(Duration(seconds: 1)).then((value) {
+          progressDialog.hide();
+        });
+      }
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -142,7 +181,6 @@ class Register extends StatelessWidget {
                           ),
                         ],
                       ),
-                      
                       child: new Form(
                         key: _formkey,
                         child: Column(
@@ -219,8 +257,7 @@ class Register extends StatelessWidget {
                                 controller: _pass,
                                 validator: (value) => value.isEmpty
                                     ? 'Password can\'t be empty'
-                                    : null ,
-                                    
+                                    : null,
                                 onSaved: (value) => _password = value.trim(),
                               ),
                             ),
@@ -245,16 +282,15 @@ class Register extends StatelessWidget {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    value=null;
+                                    value = null;
                                     return 'Confirm Password can\'t be empty';
                                   }
-                                  if(value != _pass.text){
-                                      return 'Confirm Password should match Password';
+                                  if (value != _pass.text) {
+                                    return 'Confirm Password should match Password';
                                   }
-                                
+
                                   return null;
                                 },
-                              
                               ),
                             ),
                           ],
@@ -265,17 +301,19 @@ class Register extends StatelessWidget {
                       height: 40,
                     ),
                     FlatButton(
-                      onPressed: validateAndSubmit,
+                      onPressed: funct,
                       child: Container(
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
                             10,
                           ),
-                          gradient: LinearGradient(colors: [
-                            Color.fromRGBO(143, 148, 251, 1),
-                            Color.fromRGBO(143, 148, 251, .6),
-                          ]),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromRGBO(143, 148, 251, 1),
+                              Color.fromRGBO(143, 148, 251, .6),
+                            ],
+                          ),
                         ),
                         child: Center(
                           child: Text(
