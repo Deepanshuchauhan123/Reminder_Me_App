@@ -8,15 +8,17 @@ class RootPage extends StatefulWidget {
 final Baseauth auth;
 
   @override
-  State<StatefulWidget> createState() => new _RootPageState();
+  State<StatefulWidget> createState() => new RootPageState();
 }
 enum AuthStatus{
   notSignedIn,
   signedIn
 
 }
-class _RootPageState extends State<RootPage> {
+
+class RootPageState extends State<RootPage> {
   AuthStatus authStatus=AuthStatus.notSignedIn;
+  static String user;
 
   @override
   void initState() {
@@ -25,10 +27,13 @@ class _RootPageState extends State<RootPage> {
     widget.auth.currentUser().then((userId){
       setState(() {
         authStatus = userId == null ? AuthStatus.notSignedIn: AuthStatus.signedIn;
+        user=userId;
       });
     });
   }
-
+static String users_id(){
+  return user;
+}
 void _signedIn(){
   setState(() {
     authStatus= AuthStatus.signedIn;

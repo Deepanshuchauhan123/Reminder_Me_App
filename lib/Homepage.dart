@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_do_app/CreateTask.dart';
+import 'package:to_do_app/Root_Page.dart';
+import 'package:to_do_app/main.dart';
 import 'auth.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,8 +30,10 @@ List<String> nameyour = [
 ];
 
 
+
 class HomePageState extends State<HomePage> {
  
+ RootPage r1=new RootPage();
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
 
@@ -122,12 +128,16 @@ HomePage h1=new HomePage();
                                     setState(
                                       () {
                                         if (name != null && name != "") {
+                                          Firestore.instance.collection('Details').document().setData({
+                                            'Name :': name
+                                          });
                                           nameyour.add(name);
                                           print(nameyour);
+                                          print("uuuuuuuiiiiiiiiiiiiiiddddddddddd:  ${RootPageState.users_id()} ");
                                           nameyour
                                               .removeAt(nameyour.length - 2);
                                         } else {
-                                          // nameyour.add("Your Name");
+                                          
                                         }
                                       },
                                     );

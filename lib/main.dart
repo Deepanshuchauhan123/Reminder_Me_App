@@ -14,6 +14,7 @@ void main() {
 }
 
 class LoginPage extends StatelessWidget {
+  
   ProgressDialog progressDialog;
   LoginPage({this.auth,this.onSignedIn});
   final Baseauth auth ;
@@ -48,6 +49,7 @@ class LoginPage extends StatelessWidget {
               },
             );
         print('auth $userid');
+        
       } catch (error) {
         progressDialog.update(message: error.message);
         Future.delayed(
