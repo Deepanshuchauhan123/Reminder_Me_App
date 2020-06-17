@@ -7,6 +7,7 @@ import 'package:to_do_app/main.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Register extends StatelessWidget {
+  
   ProgressDialog progressDialog;
   BuildContext cont;
 
@@ -32,7 +33,8 @@ class Register extends StatelessWidget {
       try {
         String userid =
             await auth.createUserwithemailandpassword(_email, _password);
-        Firestore.instance.collection('Details').add(
+            
+        Firestore.instance.collection('Details').document(userid).setData(
           {
             "Name": _name,
             "Email": _email,
@@ -75,6 +77,7 @@ class Register extends StatelessWidget {
       );
     }
   }
+ 
 
   @override
   Widget build(BuildContext context) {

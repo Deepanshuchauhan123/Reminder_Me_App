@@ -28,12 +28,11 @@ class RootPageState extends State<RootPage> {
       setState(() {
         authStatus = userId == null ? AuthStatus.notSignedIn: AuthStatus.signedIn;
         user=userId;
+        print("Root Page ddddddddddddddddddddddggggggggggggggggggggggggg  $userId");
       });
     });
   }
-static String users_id(){
-  return user;
-}
+
 void _signedIn(){
   setState(() {
     authStatus= AuthStatus.signedIn;

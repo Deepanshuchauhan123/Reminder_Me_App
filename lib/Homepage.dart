@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_do_app/CreateTask.dart';
+import 'package:to_do_app/Register.dart';
 import 'package:to_do_app/Root_Page.dart';
 import 'package:to_do_app/main.dart';
 import 'auth.dart';
@@ -128,12 +129,12 @@ HomePage h1=new HomePage();
                                     setState(
                                       () {
                                         if (name != null && name != "") {
-                                          Firestore.instance.collection('Details').document().setData({
-                                            'Name :': name
+                                          Firestore.instance.collection('Details').document(RootPageState.user).updateData({
+                                            "Name": name
                                           });
                                           nameyour.add(name);
                                           print(nameyour);
-                                          print("uuuuuuuiiiiiiiiiiiiiiddddddddddd:  ${RootPageState.users_id()} ");
+                                          print("uuuuuuuiiiiiiiiiiiiiiddddddddddd:  ${RootPageState.user}");
                                           nameyour
                                               .removeAt(nameyour.length - 2);
                                         } else {
@@ -145,7 +146,8 @@ HomePage h1=new HomePage();
                                 );
                               },
                               child: Text(
-                                nameyour[nameyour.length - 1],
+                                Firestore.instance.collection("Details").getDocuments().toString(),
+                                // nameyour[nameyour.length - 1],
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontFamily: 'OldStandardTT',
