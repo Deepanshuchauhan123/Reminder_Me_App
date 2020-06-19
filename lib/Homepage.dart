@@ -22,13 +22,12 @@ class HomePage extends StatefulWidget {
   }
 }
 
-String username = "n";
 List<Card> taskshow = [];
+
 String name = "Your Name";
-List<String> nameyour = [
-  "Your Name",
-];
-Future<void> get_UserName() async {
+String username = "Your Name";
+
+Future<String> getUserName() async {
   await Firestore.instance
       .collection("Details")
       .document(RootPageState.user)
@@ -36,11 +35,10 @@ Future<void> get_UserName() async {
       .then(
     (onValue) {
       username = onValue.data["Name"];
-
-      print("Value of the name is   ${onValue.data["Name"]}");
-      
+      print("Value of the name is   $username");
     },
   );
+  return username;
 }
 
 class HomePageState extends State<HomePage> {
@@ -56,7 +54,7 @@ class HomePageState extends State<HomePage> {
           content: TextFormField(
             controller: customcontroller,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(15),
+              LengthLimitingTextInputFormatter(20),
             ],
           ),
           actions: <Widget>[
@@ -75,20 +73,19 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  DocumentReference users =
-      Firestore.instance.collection("Details").document(RootPageState.user);
-
   HomePage h1 = new HomePage();
+  @override
+  void initState() {
+    super.initState();
+    getUserName().then((onValue) {
+      setState(() {
+        username = onValue;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    @override
-    initState() {
-      get_UserName();
-      print("inside      $username");
-    }
-
-    get_UserName();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 148, 251, 1),
@@ -159,14 +156,13 @@ class HomePageState extends State<HomePage> {
                                               .collection('Details')
                                               .document(RootPageState.user)
                                               .updateData({"Name": name});
-                                          nameyour.add(name);
-                                          get_UserName();
-                                          print(nameyour);
-                                          print(
-                                              "uuuuuuuiiiiiiiiiiiiiiddddddddddd:  ${RootPageState.user}");
-                                          nameyour
-                                              .removeAt(nameyour.length - 2);
-                                        } else {}
+
+                                          getUserName().then((onValue) {
+                                            setState(() {
+                                              username = onValue;
+                                            });
+                                          });
+                                        }
                                       },
                                     );
                                   },
