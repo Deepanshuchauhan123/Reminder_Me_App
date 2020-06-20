@@ -28,7 +28,7 @@ class RootPageState extends State<RootPage> {
       setState(() {
         authStatus = userId == null ? AuthStatus.notSignedIn: AuthStatus.signedIn;
         user=userId;
-        print("Root Page ddddddddddddddddddddddggggggggggggggggggggggggg  $userId");
+        print("Root Page ddddddddddddgggggggggggggg  $userId");
       });
     });
   }
@@ -47,8 +47,20 @@ void _signedOut(){
   Widget build(BuildContext context) {
     switch(authStatus){
       case AuthStatus.notSignedIn :
+      //RootPageState r1=new RootPageState();
+      widget.auth.currentUser().then((uid){
+        setState(() {
+          user=uid;
+        });
+      });      
       return new LoginPage(auth: widget.auth, onSignedIn: _signedIn,);
       case AuthStatus.signedIn:
+      //RootPageState r2=new RootPageState();
+      widget.auth.currentUser().then((uid) async {
+        setState(() {
+          user=uid;
+        });
+      });
       return new HomePage(
         auth: widget.auth,
         onSignedOut: _signedOut,

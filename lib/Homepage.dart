@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 List<Card> taskshow = [];
 
 String name = "Your Name";
-String username = "Your Name";
+var username = "Your Name";
 
 Future<String> getUserName() async {
   await Firestore.instance
@@ -33,9 +33,10 @@ Future<String> getUserName() async {
       .document(RootPageState.user)
       .get()
       .then(
-    (onValue) {
+    (onValue) async {
       username = onValue.data["Name"];
-      print("Value of the name is   $username");
+      print(
+          "Value of the name is   ${onValue.data["Name"]}        and id  ${RootPageState.user}");
     },
   );
   return username;
@@ -73,13 +74,30 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  HomePage h1 = new HomePage();
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   getUserName().then(
+  //     (onValue) {
+  //       setState(
+  //         () {
+  //           username = onValue;
+
+  //           print("Set State               $username");
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
   @override
-  void initState() {
-    super.initState();
+  void didUpdateWidget(HomePageState) {
+    super.didUpdateWidget(HomePageState);
     getUserName().then((onValue) {
       setState(() {
         username = onValue;
+        print("Set State               $username");
       });
     });
   }
