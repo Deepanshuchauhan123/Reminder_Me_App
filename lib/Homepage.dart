@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_do_app/CreateTask.dart';
+import 'package:to_do_app/Get_Tasks.dart';
 import 'package:to_do_app/Root_Page.dart';
 import 'auth.dart';
 
@@ -35,15 +36,18 @@ Future<String> getUserName() async {
       .then(
     (onValue) async {
       username = onValue.data["Name"];
-      print(
-          "Value of the name is   ${onValue.data["Name"]}        and id  ${RootPageState.user}");
+      // print(
+      //     "Value of the name is   ${onValue.data["Name"]}        and id  ${RootPageState.user}");
     },
   );
   return username;
 }
 
 class HomePageState extends State<HomePage> {
+  
   RootPage r1 = new RootPage();
+  Get_Tasks g1 = new Get_Tasks();
+  QuerySnapshot task;
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
 
@@ -84,12 +88,25 @@ class HomePageState extends State<HomePage> {
   //         () {
   //           username = onValue;
 
-  //           print("Set State               $username");
+  //           print("Set State   $username");
   //         },
   //       );
   //     },
   //   );
   // }
+  @override
+  void initState() {
+    setDataScreen();
+    super.initState();
+  }
+
+  void setDataScreen() {
+    g1.getData().then(
+      (onvalue) {
+        task = onvalue;
+      },
+    );
+  }
 
   @override
   void didUpdateWidget(HomePageState) {
@@ -97,7 +114,7 @@ class HomePageState extends State<HomePage> {
     getUserName().then((onValue) {
       setState(() {
         username = onValue;
-        print("Set State               $username");
+        //  print("Set State               $username");
       });
     });
   }
@@ -252,24 +269,59 @@ class HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Container(
-                  color: Colors.lightBlueAccent,
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset(taskshow.length == 0
-                          ? "assets/images/empty_List.jpg"
-                          : ""),
-                      Column(
-                        children: taskshow,
-                      )
-                    ],
+                  child: new Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(
+                      height: double.maxFinite,
+                      child: _taskList(),
+                    ),
                   ),
-                ),
-              ),
+                  // new IconButton(
+                  //   icon: Icon(Icons.delete),
+                  //   onPressed: () {},
+                  // ),
+                ],
+              )
+                  //  Container(
+                  //   color: Colors.lightBlueAccent,
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       Image.asset(taskshow.length == 0
+                  //           ? "assets/images/empty_List.jpg"
+                  //           : ""),
+                  //       Column(
+                  //         children: taskshow,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                  ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _taskList() {
+    if (task != null) {
+      return ListView.builder(
+        itemCount: task.documents.length,
+        padding: EdgeInsets.all(5.0),
+        itemBuilder: (context, i) {
+          return ListTile(
+            leading: Icon(Icons.alarm),
+            trailing: Icon(Icons.delete),
+            title: Text(
+              task.documents[i].data["Title"],
+            ),
+            subtitle: Text(task.documents[i].data['Description']),
+          );
+        },
+      );
+    } else {
+      return Image.asset("assets/images/empty_List.jpg");
+    }
   }
 }
