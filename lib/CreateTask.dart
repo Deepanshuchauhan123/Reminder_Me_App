@@ -10,7 +10,8 @@ class CreateTask extends StatefulWidget {
   @override
   CreateTaskState createState() => CreateTaskState();
 }
-HomePage home=new HomePage();
+
+HomePage home = new HomePage();
 
 class CreateTaskState extends State<CreateTask> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -20,10 +21,10 @@ class CreateTaskState extends State<CreateTask> {
   TextEditingController titlecontroller = new TextEditingController();
   TextEditingController descController = new TextEditingController();
   var dateandtime;
- 
+
   @override
   void dispose() {
-    titlecontroller.dispose();    
+    titlecontroller.dispose();
     super.dispose();
   }
 
@@ -313,25 +314,8 @@ class CreateTaskState extends State<CreateTask> {
                                               .millisecondsSinceEpoch,
                                           "Description": descController.text,
                                         },
-                                      );                                       
-                                      // taskshow.add(
-                                      //   Card(
-                                      //     elevation: 5.0,
-                                      //     child: Column(
-                                      //       children: <Widget>[
-                                      //         ListTile(
-                                      //           leading: Icon(Icons.alarm),
-                                      //           title: Text(
-                                      //             titlecontroller.text,
-                                      //           ),
-                                      //           subtitle: Text(picked
-                                      //               .format(context)
-                                      //               .toString()),
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   ),
-                                      // );
+                                      );
+                                      
                                       Navigator.pop(context);
                                       // Navigator.push(
                                       //   context,
@@ -344,8 +328,6 @@ class CreateTaskState extends State<CreateTask> {
                                 }
                               },
                             );
-
-                            //print(taskshow);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),

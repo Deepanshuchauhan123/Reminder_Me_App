@@ -21,9 +21,11 @@ class HomePage extends StatefulWidget {
       print(e);
     }
   }
+  // void methodcall(){
+  //   HomePageState h1 =new HomePageState();
+  //     h1.setDataScreen();
+  // }
 }
-
-List<Card> taskshow = [];
 
 String name = "Your Name";
 var username = "Your Name";
@@ -36,6 +38,7 @@ Future<String> getUserName() async {
       .then(
     (onValue) async {
       username = onValue.data["Name"];
+
       // print(
       //     "Value of the name is   ${onValue.data["Name"]}        and id  ${RootPageState.user}");
     },
@@ -44,10 +47,10 @@ Future<String> getUserName() async {
 }
 
 class HomePageState extends State<HomePage> {
-  
   RootPage r1 = new RootPage();
   Get_Tasks g1 = new Get_Tasks();
   QuerySnapshot task;
+
   Future<String> createAlertDialog(BuildContext context) {
     TextEditingController customcontroller = TextEditingController();
 
@@ -100,7 +103,7 @@ class HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void setDataScreen() {
+  setDataScreen() {
     g1.getData().then(
       (onvalue) {
         task = onvalue;
@@ -111,16 +114,20 @@ class HomePageState extends State<HomePage> {
   @override
   void didUpdateWidget(HomePageState) {
     super.didUpdateWidget(HomePageState);
-    getUserName().then((onValue) {
-      setState(() {
-        username = onValue;
-        //  print("Set State               $username");
-      });
-    });
+    getUserName().then(
+      (onValue) {
+        setState(
+          () {
+            username = onValue;
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    setDataScreen();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 148, 251, 1),
@@ -277,26 +284,8 @@ class HomePageState extends State<HomePage> {
                       child: _taskList(),
                     ),
                   ),
-                  // new IconButton(
-                  //   icon: Icon(Icons.delete),
-                  //   onPressed: () {},
-                  // ),
                 ],
-              )
-                  //  Container(
-                  //   color: Colors.lightBlueAccent,
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       Image.asset(taskshow.length == 0
-                  //           ? "assets/images/empty_List.jpg"
-                  //           : ""),
-                  //       Column(
-                  //         children: taskshow,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  ),
+              )),
             ),
           ],
         ),
