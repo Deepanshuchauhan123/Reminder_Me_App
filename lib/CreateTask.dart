@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/Homepage.dart';
+import 'package:to_do_app/Root_Page.dart';
 import 'Task.dart';
 
 class CreateTask extends StatefulWidget {
@@ -17,8 +19,8 @@ class CreateTaskState extends State<CreateTask> {
   TimeOfDay picked;
   DateTime _dateTime;
   TextEditingController titlecontroller = new TextEditingController();
-
   TextEditingController descController = new TextEditingController();
+  var dateandtime;
 
   @override
   void dispose() {
@@ -253,7 +255,6 @@ class CreateTaskState extends State<CreateTask> {
                         ),
                         FlatButton(
                           onPressed: () {
-                           
                             print("Tapped bro");
 
                             setState(
@@ -267,7 +268,7 @@ class CreateTaskState extends State<CreateTask> {
                                     ),
                                   );
                                 } else {
-                                  if (_dateTime==null) {
+                                  if (_dateTime == null) {
                                     _scaffoldKey.currentState.showSnackBar(
                                       SnackBar(
                                         content: Text(
@@ -276,8 +277,7 @@ class CreateTaskState extends State<CreateTask> {
                                       ),
                                     );
                                   } else {
-                                    if (picked ==
-                                        null) {
+                                    if (picked == null) {
                                       _scaffoldKey.currentState.showSnackBar(
                                         SnackBar(
                                           content: Text(
@@ -285,7 +285,7 @@ class CreateTaskState extends State<CreateTask> {
                                           ),
                                         ),
                                       );
-                                    } else if(descController.text==""){
+                                    } else if (descController.text == "") {
                                       _scaffoldKey.currentState.showSnackBar(
                                         SnackBar(
                                           content: Text(
@@ -293,7 +293,28 @@ class CreateTaskState extends State<CreateTask> {
                                           ),
                                         ),
                                       );
-                                    } else{
+                                    } else {
+                                      dateandtime = _dateTime
+                                              .toString()
+                                              .substring(0, 10) +
+                                          ' ' +
+                                          picked.toString().substring(10, 15) +
+                                          ":00";
+
+                                      dateandtime = DateTime.parse(dateandtime);
+                                      Firestore.instance
+                                          .collection("Details")
+                                          .document(RootPageState.user)
+                                          .collection("Tasks")
+                                          .document(RootPageState.user)
+                                          .setData(
+                                        {
+                                          "Title": titlecontroller.text,
+                                          "Date-Time": dateandtime
+                                              .millisecondsSinceEpoch,
+                                          "Description": descController.text,
+                                        },
+                                      );
                                       taskshow.add(
                                         Card(
                                           elevation: 5.0,
@@ -301,8 +322,12 @@ class CreateTaskState extends State<CreateTask> {
                                             children: <Widget>[
                                               ListTile(
                                                 leading: Icon(Icons.alarm),
-                                                title: Text(titlecontroller.text,),
-                                                subtitle: Text(picked.format(context).toString()),
+                                                title: Text(
+                                                  titlecontroller.text,
+                                                ),
+                                                subtitle: Text(picked
+                                                    .format(context)
+                                                    .toString()),
                                               ),
                                             ],
                                           ),
@@ -362,3 +387,11 @@ class CreateTaskState extends State<CreateTask> {
     );
   }
 }
+
+/*
+ printText('1. onValue', onValue.toString());
+  var _dueDate = onValue.millisecondsSinceEpoch; // Convert DateTime into timestamp so it can be stored into firebase document
+  printText('2. onValue.millisecondsSinceEpoch', _dueDate.toString());
+  DateTime _dueDate2 = DateTime.fromMicrosecondsSinceEpoch(_dueDate);
+  printText('3. DateTime.fromMicrosecondsSinceEpoch(_dueDate)', '$_dueDate2');
+*/

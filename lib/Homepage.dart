@@ -175,11 +175,15 @@ class HomePageState extends State<HomePage> {
                                               .document(RootPageState.user)
                                               .updateData({"Name": name});
 
-                                          getUserName().then((onValue) {
-                                            setState(() {
-                                              username = onValue;
-                                            });
-                                          });
+                                          getUserName().then(
+                                            (onValue) {
+                                              setState(
+                                                () {
+                                                  username = onValue;
+                                                },
+                                              );
+                                            },
+                                          );
                                         }
                                       },
                                     );
