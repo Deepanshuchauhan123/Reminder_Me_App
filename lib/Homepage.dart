@@ -275,17 +275,7 @@ class HomePageState extends State<HomePage> {
               ],
             ),
             Expanded(
-              child: SingleChildScrollView(
-                  child: new Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(
-                      height: double.maxFinite,
-                      child: _taskList(),
-                    ),
-                  ),
-                ],
-              )),
+              child: _taskList(),
             ),
           ],
         ),
@@ -299,13 +289,43 @@ class HomePageState extends State<HomePage> {
         itemCount: task.documents.length,
         padding: EdgeInsets.all(5.0),
         itemBuilder: (context, i) {
-          return ListTile(
-            leading: Icon(Icons.alarm),
-            trailing: Icon(Icons.delete),
-            title: Text(
-              task.documents[i].data["Title"],
+          return Card(
+            shadowColor: Colors.blue,
+            borderOnForeground: true,
+            elevation: 2.0,
+            child: Container(
+              decoration: new BoxDecoration(
+                border: new Border(
+                  left: new BorderSide(
+                    color: Colors.deepPurpleAccent,
+                    width: 5.0,
+                  ),
+                  // right: new BorderSide(
+                  //   color: Colors.deepPurpleAccent,
+                  //   width: 1.0,
+                  // ),
+                  // top: new BorderSide(
+                  //   color: Colors.deepPurpleAccent,
+                  //   width: 1.0,
+                  // )
+                ),
+              ),
+              child: ListTile(
+                leading: Image.asset(
+                  "assets/images/images.png",
+                  height: 40,
+                  width: 40,
+                ),
+                trailing: Icon(Icons.delete),
+                title: Text(
+                  task.documents[i].data["Title"],
+                  style: TextStyle(color: Colors.deepPurple),
+                ),
+                subtitle: Text(
+                  task.documents[i].data['Description'],
+                ),
+              ),
             ),
-            subtitle: Text(task.documents[i].data['Description']),
           );
         },
       );
