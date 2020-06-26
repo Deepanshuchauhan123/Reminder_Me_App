@@ -276,7 +276,18 @@ class HomePageState extends State<HomePage> {
               ],
             ),
             Expanded(
-              child: _taskList(),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(143, 148, 251, .18),
+                      Color.fromRGBO(143, 148, 251, .01),
+                    ],
+                  ),
+                ),
+                child: _taskList(),
+              ),
             ),
           ],
         ),
@@ -300,6 +311,7 @@ class HomePageState extends State<HomePage> {
                   left: new BorderSide(
                     color: Colors.deepPurpleAccent,
                     width: 5.0,
+                    style: BorderStyle.solid,
                   ),
                 ),
               ),
@@ -308,9 +320,22 @@ class HomePageState extends State<HomePage> {
                   backgroundImage: AssetImage("assets/images/images.png"),
                   radius: 25,
                 ),
-                trailing: Icon(
-                  Icons.delete,
-                  size: 26.0,
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    size: 26.0,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      Firestore.instance
+                          .collection("Details")
+                          .document(RootPageState.user)
+                          .collection("Tasks")
+                          .document()
+                          .delete();
+                      print("hhhhhh");
+                    });
+                  },
                 ),
                 title: Text(
                   task.documents[i].data["Title"],
