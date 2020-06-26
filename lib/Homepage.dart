@@ -148,7 +148,7 @@ class HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             Container(
-              height: 150,
+              height: 140,
               width: double.maxFinite,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -238,14 +238,15 @@ class HomePageState extends State<HomePage> {
                   child: Text(
                     'My Tasks',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 25,
+                      fontFamily: 'OldStandardTT',
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: ClipOval(
                     child: Material(
                       color: Colors.blueAccent,
@@ -300,29 +301,29 @@ class HomePageState extends State<HomePage> {
                     color: Colors.deepPurpleAccent,
                     width: 5.0,
                   ),
-                  // right: new BorderSide(
-                  //   color: Colors.deepPurpleAccent,
-                  //   width: 1.0,
-                  // ),
-                  // top: new BorderSide(
-                  //   color: Colors.deepPurpleAccent,
-                  //   width: 1.0,
-                  // )
                 ),
               ),
               child: ListTile(
-                leading: Image.asset(
-                  "assets/images/images.png",
-                  height: 40,
-                  width: 40,
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/images.png"),
+                  radius: 25,
                 ),
-                trailing: Icon(Icons.delete),
+                trailing: Icon(
+                  Icons.delete,
+                  size: 26.0,
+                ),
                 title: Text(
                   task.documents[i].data["Title"],
-                  style: TextStyle(color: Colors.deepPurple),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontFamily: 'OldStandardTT'),
                 ),
                 subtitle: Text(
                   task.documents[i].data['Description'],
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),
