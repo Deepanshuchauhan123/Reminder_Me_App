@@ -391,6 +391,7 @@ class HomePageState extends State<HomePage> {
                     );
                   },
                 ),
+                
                 title: Text(
                   task.documents[i].data["Title"],
                   style: TextStyle(
@@ -398,12 +399,21 @@ class HomePageState extends State<HomePage> {
                       color: Colors.black,
                       fontFamily: 'OldStandardTT'),
                 ),
-                subtitle: Text(
+
+                subtitle: Column(
+                  children: <Widget>[
+                    Text(
                   task.documents[i].data['Description'],
                   style: TextStyle(
                     fontSize: 15,
                   ),
                 ),
+                Text(
+                  task.documents[i].data['Date-Time'].toString(),
+                )
+                  ],
+                )
+                
               ),
             ),
           );
