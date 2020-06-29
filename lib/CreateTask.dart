@@ -78,6 +78,7 @@ class CreateTaskState extends State<CreateTask> {
                                 ),
                               ),
                               child: TextField(
+                                autofocus: false,
                                 controller: titlecontroller,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -144,7 +145,7 @@ class CreateTaskState extends State<CreateTask> {
                                       ? "Pick a Date"
                                       : _dateTime.toString().substring(0, 10),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black45,
                                     fontSize: 17,
                                   ),
                                 ),
@@ -201,7 +202,7 @@ class CreateTaskState extends State<CreateTask> {
                                       ? "Task Start Time"
                                       : picked.format(context).toString(),
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black45,
                                     fontSize: 17,
                                   ),
                                 ),
@@ -237,6 +238,7 @@ class CreateTaskState extends State<CreateTask> {
                                 ),
                               ),
                               child: TextField(
+                                autofocus: false,
                                 controller: descController,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,

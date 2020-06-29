@@ -22,10 +22,6 @@ class HomePage extends StatefulWidget {
       print(e);
     }
   }
-  // void methodcall(){
-  //   HomePageState h1 =new HomePageState();
-  //     h1.setDataScreen();
-  // }
 }
 
 String name = "Your Name";
@@ -39,9 +35,6 @@ Future<String> getUserName() async {
       .then(
     (onValue) async {
       username = onValue.data["Name"];
-
-      // print(
-      //     "Value of the name is   ${onValue.data["Name"]}        and id  ${RootPageState.user}");
     },
   );
   return username;
@@ -83,22 +76,6 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   getUserName().then(
-  //     (onValue) {
-  //       setState(
-  //         () {
-  //           username = onValue;
-
-  //           print("Set State   $username");
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
   @override
   void initState() {
     setDataScreen();
