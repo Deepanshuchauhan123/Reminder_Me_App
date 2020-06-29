@@ -326,15 +326,69 @@ class HomePageState extends State<HomePage> {
                     size: 26.0,
                   ),
                   onPressed: () {
-                    setState(() {
-                      Firestore.instance
-                          .collection("Details")
-                          .document(RootPageState.user)
-                          .collection("Tasks")
-                          .document()
-                          .delete();
-                      print("hhhhhh");
-                    });
+                    setState(
+                      () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                "Task Deletation",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'OldStandardTT',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                              ),
+                              content: Text(
+                                "Do you really want to Delete this task ?",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                              actions: <Widget>[
+                                MaterialButton(
+                                  color: Colors.blue,
+                                  elevation: 5.0,
+                                  child: Text(
+                                    "Yes",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Firestore.instance
+                                        .collection("Details")
+                                        .document(RootPageState.user)
+                                        .collection("Tasks")
+                                        .document(task.documents[i].documentID)
+                                        .delete();
+
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                MaterialButton(
+                                  color: Colors.blue,
+                                  elevation: 5.0,
+                                  child: Text(
+                                    "No",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
                 title: Text(
