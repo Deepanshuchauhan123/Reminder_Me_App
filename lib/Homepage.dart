@@ -5,6 +5,7 @@ import 'package:to_do_app/CreateTask.dart';
 import 'package:to_do_app/Get_Tasks.dart';
 import 'package:to_do_app/Root_Page.dart';
 import 'auth.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -68,6 +69,7 @@ class HomePageState extends State<HomePage> {
           actions: <Widget>[
             MaterialButton(
               elevation: 5.0,
+              color: Colors.blue,
               child: Text("Done"),
               onPressed: () {
                 Navigator.of(context).pop(
@@ -316,105 +318,121 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
               child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/images.png"),
-                  radius: 25,
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    size: 26.0,
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/images.png"),
+                    radius: 25,
                   ),
-                  onPressed: () {
-                    setState(
-                      () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                "Task Deletation",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'OldStandardTT',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                              ),
-                              content: Text(
-                                "Do you really want to Delete this task ?",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                ),
-                              ),
-                              actions: <Widget>[
-                                MaterialButton(
-                                  color: Colors.blue,
-                                  elevation: 5.0,
-                                  child: Text(
-                                    "Yes",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      size: 26.0,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  "Task Deletation",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'OldStandardTT',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
                                   ),
-                                  onPressed: () {
-                                    Firestore.instance
-                                        .collection("Details")
-                                        .document(RootPageState.user)
-                                        .collection("Tasks")
-                                        .document(task.documents[i].documentID)
-                                        .delete();
-
-                                    Navigator.pop(context);
-                                  },
                                 ),
-                                MaterialButton(
-                                  color: Colors.blue,
-                                  elevation: 5.0,
-                                  child: Text(
-                                    "No",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                content: Text(
+                                  "Do you really want to Delete this task ?",
+                                  style: TextStyle(
+                                    fontSize: 17,
                                   ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-                
-                title: Text(
-                  task.documents[i].data["Title"],
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontFamily: 'OldStandardTT'),
-                ),
+                                ),
+                                actions: <Widget>[
+                                  MaterialButton(
+                                    color: Colors.blue,
+                                    elevation: 5.0,
+                                    child: Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Firestore.instance
+                                          .collection("Details")
+                                          .document(RootPageState.user)
+                                          .collection("Tasks")
+                                          .document(
+                                              task.documents[i].documentID)
+                                          .delete();
 
-                subtitle: Column(
-                  children: <Widget>[
-                    Text(
-                  task.documents[i].data['Description'],
-                  style: TextStyle(
-                    fontSize: 15,
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  MaterialButton(
+                                    color: Colors.blue,
+                                    elevation: 5.0,
+                                    child: Text(
+                                      "No",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
-                ),
-                Text(
-                  task.documents[i].data['Date-Time'].toString(),
-                )
-                  ],
-                )
-                
-              ),
+                  title: Text(
+                    task.documents[i].data["Title"],
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontFamily: 'OldStandardTT'),
+                  ),
+                  subtitle: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        DateFormat()
+                            .format(DateTime.fromMillisecondsSinceEpoch(
+                                task.documents[i].data['Date-Time']))
+                            .substring(0, 14),
+                        style: TextStyle(
+                          fontSize: 16.5,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        DateFormat()
+                            .format(DateTime.fromMillisecondsSinceEpoch(
+                                task.documents[i].data['Date-Time']))
+                            .substring(14),
+                        style: TextStyle(
+                          fontSize: 16.5,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        task.documents[i].data['Description'],
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  )),
             ),
           );
         },

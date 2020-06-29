@@ -370,10 +370,3 @@ class CreateTaskState extends State<CreateTask> {
   }
 }
 
-/*
- printText('1. onValue', onValue.toString());
-  var _dueDate = onValue.millisecondsSinceEpoch; // Convert DateTime into timestamp so it can be stored into firebase document
-  printText('2. onValue.millisecondsSinceEpoch', _dueDate.toString());
-  DateTime _dueDate2 = DateTime.fromMicrosecondsSinceEpoch(_dueDate);
-  printText('3. DateTime.fromMicrosecondsSinceEpoch(_dueDate)', '$_dueDate2');
-*/
