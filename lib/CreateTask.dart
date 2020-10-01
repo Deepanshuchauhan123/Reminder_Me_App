@@ -35,7 +35,7 @@ class CreateTaskState extends State<CreateTask> {
       key: _scaffoldKey,
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(0.01),
+          padding: EdgeInsets.fromLTRB(0.01, 50, 0.01, 0.01),
           height: double.maxFinite,
           width: double.maxFinite,
           child: Column(
