@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/auth.dart';
@@ -7,7 +8,6 @@ import 'package:to_do_app/main.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Register extends StatelessWidget {
-  
   ProgressDialog progressDialog;
   BuildContext cont;
 
@@ -33,7 +33,7 @@ class Register extends StatelessWidget {
       try {
         String userid =
             await auth.createUserwithemailandpassword(_email, _password);
-            
+
         Firestore.instance.collection('Details').document(userid).setData(
           {
             "Name": _name,
@@ -53,9 +53,9 @@ class Register extends StatelessWidget {
           },
         );
 
-        print("Userid: $userid");
+        Fluttertoast.showToast(msg: "Userid: $userid");
       } catch (error) {
-        print("Error is $error");
+        Fluttertoast.showToast(msg: "Error is $error");
 
         progressDialog.update(message: error.message);
         Future.delayed(
@@ -77,7 +77,6 @@ class Register extends StatelessWidget {
       );
     }
   }
- 
 
   @override
   Widget build(BuildContext context) {
