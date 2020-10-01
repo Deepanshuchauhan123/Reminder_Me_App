@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'Register.dart';
 import 'auth.dart';
 import 'Root_Page.dart';
@@ -7,17 +8,17 @@ import 'package:progress_dialog/progress_dialog.dart';
 void main() {
   runApp(
     MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RootPage(auth: new Auth(),)
-    ),
+        debugShowCheckedModeBanner: false,
+        home: RootPage(
+          auth: new Auth(),
+        )),
   );
 }
 
 class LoginPage extends StatelessWidget {
-  
   ProgressDialog progressDialog;
-  LoginPage({this.auth,this.onSignedIn});
-  final Baseauth auth ;
+  LoginPage({this.auth, this.onSignedIn});
+  final Baseauth auth;
   final VoidCallback onSignedIn;
 
   final _formkey = new GlobalKey<FormState>();
@@ -37,21 +38,21 @@ class LoginPage extends StatelessWidget {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        String userid= await auth.signInWithEmailandpassword(_email, _password);
+        String userid =
+            await auth.signInWithEmailandpassword(_email, _password);
         onSignedIn();
-         progressDialog.update(message: "Login Sucessful");
-            Future.delayed(
-              Duration(seconds: 1),
-            ).then(
-              (value) {
-                
-                progressDialog.hide();
-              },
-            );
+        progressDialog.update(message: "Login Sucessful");
+        Future.delayed(
+          Duration(seconds: 1),
+        ).then(
+          (value) {
+            progressDialog.hide();
+          },
+        );
         print('auth $userid');
-        
       } catch (error) {
         progressDialog.update(message: error.message);
+        Fluttertoast.showToast(msg: error.message);
         Future.delayed(
           Duration(seconds: 2),
         ).then(
@@ -60,7 +61,7 @@ class LoginPage extends StatelessWidget {
           },
         );
       }
-    }else {
+    } else {
       progressDialog.update(message: "Invalid Credentials !!");
       Future.delayed(
         Duration(seconds: 1),
@@ -74,13 +75,14 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context,type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
 
-     void funct() {
+    void funct() {
       progressDialog.style(message: "Checking User Details....");
       progressDialog.show();
       validateAndSubmit();
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -289,7 +291,9 @@ class LoginPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Register(auth: new Auth(),),
+                            builder: (context) => Register(
+                              auth: new Auth(),
+                            ),
                           ),
                         );
                       },
