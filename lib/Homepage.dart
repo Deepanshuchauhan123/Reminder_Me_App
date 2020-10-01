@@ -123,6 +123,23 @@ class HomePageState extends State<HomePage> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.blue,
+        label: Text("Add New Task",
+        style: TextStyle(
+          fontFamily: 'OldStandardTT',
+          fontSize: 20
+        ),),
+        onPressed: (){
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateTask(),
+            ),
+          );
+        },
+      ),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -221,34 +238,6 @@ class HomePageState extends State<HomePage> {
                       fontFamily: 'OldStandardTT',
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ClipOval(
-                    child: Material(
-                      color: Colors.blueAccent,
-                      child: InkWell(
-                        splashColor: Colors.white,
-                        child: SizedBox(
-                          width: 62,
-                          height: 62,
-                          child: Icon(
-                            Icons.add,
-                            size: 36,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateTask(),
-                            ),
-                          );
-                        },
-                      ),
                     ),
                   ),
                 ),
